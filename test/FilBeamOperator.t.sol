@@ -448,11 +448,22 @@ contract FilBeamOperatorTest is Test {
     }
 
     function test_TransferOwnership() public {
+        assertEq(filBeam.owner(), owner);
+
+        vm.prank(owner);
         filBeam.transferOwnership(user1);
+        assertEq(filBeam.pendingOwner(), user1);
+
+        vm.prank(user1);
+        filBeam.acceptOwnership();
         assertEq(filBeam.owner(), user1);
 
         vm.prank(user1);
         filBeam.transferOwnership(user2);
+        assertEq(filBeam.pendingOwner(), user2);
+
+        vm.prank(user2);
+        filBeam.acceptOwnership();
         assertEq(filBeam.owner(), user2);
     }
 
@@ -460,11 +471,6 @@ contract FilBeamOperatorTest is Test {
         vm.prank(user1);
         vm.expectRevert();
         filBeam.transferOwnership(user2);
-    }
-
-    function test_TransferOwnershipRevertZeroAddress() public {
-        vm.expectRevert();
-        filBeam.transferOwnership(address(0));
     }
 
     function test_MultipleDataSets() public {

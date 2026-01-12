@@ -2,12 +2,12 @@
 pragma solidity ^0.8.13;
 
 import "./Errors.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import {Ownable, Ownable2Step} from "@openzeppelin/contracts/access/Ownable2Step.sol";
 import {FilecoinPayV1} from "@filecoin-pay/FilecoinPayV1.sol";
 import {FilecoinWarmStorageService} from "@filecoin-services/FilecoinWarmStorageService.sol";
 import {FilecoinWarmStorageServiceStateView} from "@filecoin-services/FilecoinWarmStorageServiceStateView.sol";
 
-contract FilBeamOperator is Ownable {
+contract FilBeamOperator is Ownable2Step {
     struct DataSetUsage {
         uint256 cdnAmount;
         uint256 cacheMissAmount;
