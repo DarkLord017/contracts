@@ -9,8 +9,6 @@ jobs:
   release-abi:
     name: Release ABI
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout repository
@@ -28,11 +26,11 @@ jobs:
         run: |
           mkdir -p abis
           jq '.abi' out/FilBeamOperator.sol/FilBeamOperator.json \
-          > abis/FilBeamOperator.abi.json
+            > abis/FilBeamOperator.abi.json
 
       - name: Publish ABIs to GitHub Release
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: actions/upload-artifact@v6
+        uses: softprops/action-gh-release@v2
         with:
-          name: abis-${{ github.ref_name }}
-          path: abis/**
+          tag_name: ${{ github.ref_name }}
+          files: |
+            abis/**
